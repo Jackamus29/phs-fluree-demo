@@ -7,34 +7,34 @@
   color: #fff; /* Text color, you can customize */
 }
 
-.logout-button {
+.nav-button {
   display: flex;
   font-size: 1em;
+  margin-left: 8px;
   padding: 0;
   text-align: center;
   text-decoration: none;
   color: #fff;
-  background-color: #f44336; /* Red color, you can customize */
+  background-color: #1E90FF;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
 
-.navbar-user-info {
-  margin-right: 8px;
-}
-
-.logout-button a {
+.nav-button a {
   color: inherit;
   text-decoration: none;
   padding: 8px 10px;
 }
 
+.logout-button {
+  background-color: #f44336; /* Red color, you can customize */
+}
 .logout-button:hover {
   background-color: #d32f2f; /* Darker shade on hover, you can customize */
 }
 
-.logout-button:hover a {
+.nav-button:hover a {
   color: inherit; /* Keep the anchor color the same on hover */
 }

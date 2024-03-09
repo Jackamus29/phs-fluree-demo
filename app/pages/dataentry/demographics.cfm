@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="/app/styles/main.css"/>
     </head>
     <body>
-      <cfinclude  template="/app/templates/navbar.cfm">
+      <cfinclude template="/app/templates/navbar.cfm">
       <h1>Demographics</h1>
     </body>
   </html>

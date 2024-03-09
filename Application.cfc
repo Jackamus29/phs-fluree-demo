@@ -14,8 +14,8 @@ component {
 
     FLUREE_HOST = "fluree";
     FLUREE_PORT = 8090;
-    FLUREE_DATASET_NAME = "phs/cf-demo";
-    FLUREE_DATASET_CONTEXT = {};
+    application.FLUREE_DATASET_NAME = "phs/cf-demo";
+    application.FLUREE_DATASET_CONTEXT = {};
 
     initialData = [
         {
@@ -31,7 +31,8 @@ component {
             "@type": "User",
             "firstName": "Alice",
             "lastName": "Graves",
-            "email": "alice@gmail.com"
+            "email": "alice@wfu.edu",
+            "isAdmin": true
         },
         {
             "@id": "clinics/asu",
@@ -45,6 +46,21 @@ component {
         // Application initialization logic
         cflog(text="Application Start");
         initializeDataset();
+
+        application.appQuery = function(query) {
+            arguments.query["@context"] = application.FLUREE_DATASET_CONTEXT;
+            arguments.query["from"] = application.FLUREE_DATASET_NAME;
+
+            local.serializedQuery = serializeJSON(arguments.query);
+            
+            cfhttp(url="http://#FLUREE_HOST#:#FLUREE_PORT#/fluree/query", method="post", result="flureeResponse") {
+                cfhttpparam(type="header", name="Content-Type", value="application/json");
+                cfhttpparam(type="body", value=local.serializedQuery);
+            }
+            local.responseData = deserializeJSON(flureeResponse.Filecontent);
+            cflog(text="#serializeJSON(local.responseData)#");
+            return local.responseData;
+        }
     }
 
     function onSessionStart() {
@@ -64,15 +80,14 @@ component {
     function initializeDataset() {
         cflog(text="Transacting initialData");
         transaction = {
-            "@context": FLUREE_DATASET_CONTEXT,
-            "ledger": FLUREE_DATASET_NAME,
+            "@context": application.FLUREE_DATASET_CONTEXT,
+            "ledger": application.FLUREE_DATASET_NAME,
             "insert": initialData
         };
         cfhttp(url="http://#FLUREE_HOST#:#FLUREE_PORT#/fluree/create", method="post", result="flureeResponse") {
             cfhttpparam(type="header", name="Content-Type", value="application/json");
             cfhttpparam(type="body", value="#serializeJSON(transaction)#");
         }
-        // cflog(text="#serializeJSON(flureeResponse)#");
         if (flureeResponse.Responseheader.Status_Code !== "201") {
             cflog(text="#serializeJSON(flureeResponse)#");
         }

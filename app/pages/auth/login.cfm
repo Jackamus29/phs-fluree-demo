@@ -1,25 +1,37 @@
 <cfscript>
-  cflog(text="on login.cfm page!");
-  function isValidUser(username, password) {
-    // fluree query to check users
-    return true;
+  function fetchUserByEmail(email) {
+    local.userQuery = {
+        "where": {
+            "@id": "?users",
+            "@type": "User",
+            "email": email
+        },
+        "select": { "?users": ["*"] }
+    }
+    local.userResponse = application.appQuery(userQuery);
+    if (arrayLen(userResponse) > 0) {
+        return userResponse[1];
+    } 
+    return;
   }
 </cfscript>
 
 <cfif structKeyExists(form, "submit")>
-  <cflog text="form submitted!" />
   <cfset email = form.email>
   <cfset password = form.password>
 
-  <cflog text="#serializeJSON(form)#" />
-
   <!-- Validate credentials (replace this with your actual authentication logic) -->
-  <cfif isValidUser(email, password)>
+  <cfset local.userRecord = fetchUserByEmail(email) />
+  <cfif structKeyExists(local, "userRecord") and structKeyExists(local.userRecord, "email") >
       <cfset session.authenticated = true>
-      <cfset session.email = email>
-      <cflocation url="../dataentry/demographics.cfm" addtoken="no">
+      <cfset session.email = local.userRecord["email"]>
+      <cfset session.isAdmin = structKeyExists(local.userRecord, "isAdmin") ? local.userRecord["isAdmin"] : false>
+      <cflocation url="../dataentry/demographics.cfm" addtoken="false">
   <cfelse>
-      <cfset errorMessage = "Invalid credentials. Please try again.">
+      <cfset session.authenticated = false>
+      <cfset session.email = "">
+      <cfset session.isAdmin = false>
+      <cfset errorMessage = "User with provided email and password not found. Please try again.">
   </cfif>
 </cfif>
 

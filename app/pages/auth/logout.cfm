@@ -1,4 +1,4 @@
 <cfscript>
   session.authenticated = false;
-  location("./login.cfm");
+  location("./login.cfm", false);
 </cfscript>
