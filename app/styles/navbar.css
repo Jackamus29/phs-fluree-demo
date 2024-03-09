@@ -1,0 +1,40 @@
+.navbar {
+  background-color: #333; /* Dark background color, you can customize */
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #fff; /* Text color, you can customize */
+}
+
+.logout-button {
+  display: flex;
+  font-size: 1em;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #f44336; /* Red color, you can customize */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.navbar-user-info {
+  margin-right: 8px;
+}
+
+.logout-button a {
+  color: inherit;
+  text-decoration: none;
+  padding: 8px 10px;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f; /* Darker shade on hover, you can customize */
+}
+
+.logout-button:hover a {
+  color: inherit; /* Keep the anchor color the same on hover */
+}

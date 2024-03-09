@@ -7,9 +7,9 @@ component {
 
     // Java Integration
     this.javaSettings = {
-      loadPaths: ["/lib"],
-      loadColdFusionClassPath: true,
-      reloadOnChange: false
+        loadPaths: ["/lib"],
+        loadColdFusionClassPath: true,
+        reloadOnChange: false
     };
 
     FLUREE_HOST = "fluree";
@@ -56,8 +56,8 @@ component {
     function onRequestStart(targetPage) {
         cflog(text="onRequestStart");
         // if user is not authenticated, redirect to the login page
-        if (targetPage != "/pages/login.cfm" and (!structKeyExists(session, "authenticated") or !session.authenticated)) {
-            location("/pages/login.cfm", false);
+        if (targetPage != "/app/pages/auth/login.cfm" and (!structKeyExists(session, "authenticated") or !session.authenticated)) {
+            location("/app/pages/auth/login.cfm", false);
         }
     }
 
@@ -72,7 +72,8 @@ component {
             cfhttpparam(type="header", name="Content-Type", value="application/json");
             cfhttpparam(type="body", value="#serializeJSON(transaction)#");
         }
-        if (flureeResponse.Status_Code !== "201") {
+        // cflog(text="#serializeJSON(flureeResponse)#");
+        if (flureeResponse.Responseheader.Status_Code !== "201") {
             cflog(text="#serializeJSON(flureeResponse)#");
         }
     }

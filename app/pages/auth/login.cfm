@@ -1,4 +1,5 @@
 <cfscript>
+  cflog(text="on login.cfm page!");
   function isValidUser(username, password) {
     // fluree query to check users
     return true;
@@ -6,16 +7,17 @@
 </cfscript>
 
 <cfif structKeyExists(form, "submit")>
-  <cfset username = form.username>
+  <cflog text="form submitted!" />
+  <cfset email = form.email>
   <cfset password = form.password>
 
   <cflog text="#serializeJSON(form)#" />
 
   <!-- Validate credentials (replace this with your actual authentication logic) -->
-  <cfif isValidUser(username, password)>
+  <cfif isValidUser(email, password)>
       <cfset session.authenticated = true>
-      <cfset session.username = username>
-      <cflocation url="demographics.cfm" addtoken="no">
+      <cfset session.email = email>
+      <cflocation url="../dataentry/demographics.cfm" addtoken="no">
   <cfelse>
       <cfset errorMessage = "Invalid credentials. Please try again.">
   </cfif>
@@ -29,7 +31,7 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Login Form</title>
-      <link rel="stylesheet" href="./styles/login.css">
+      <link rel="stylesheet" href="/app/styles/login.css">
   </head>
   <body>
       <div class="login-container">
@@ -47,7 +49,7 @@
                   <input type="password" id="password" name="password" required>
               </div>
               <div class="form-group">
-                  <button type="submit">Login</button>
+                  <button name="submit" type="submit">Login</button>
               </div>
           </form>
       </div>
