@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  cf-app:
+    image: adobecoldfusion/coldfusion:latest
+    ports:
+      - "8500:8500"
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      - acceptEULA=YES
+    depends_on:
+      - fluree
+
+  fluree:
+    image: fluree/server:latest
+    volumes:
+      - ./fluree-data:/opt/fluree-server/data
+    ports:
+      - "58090:8090"
