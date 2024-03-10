@@ -47,6 +47,7 @@ component {
         cflog(text="Application Start");
         initializeDataset();
 
+        // function for sending a Fluree Query, to be used by app service, not a user
         application.appQuery = function(query) {
             arguments.query["@context"] = application.FLUREE_DATASET_CONTEXT;
             arguments.query["from"] = application.FLUREE_DATASET_NAME;
@@ -62,6 +63,7 @@ component {
             return local.responseData;
         }
 
+        // function for sending a Fluree Transaction, to be used by app service, not a user
         application.appTransaction = function(tx) {
             arguments.tx["@context"] = application.FLUREE_DATASET_CONTEXT;
             arguments.tx["ledger"] = application.FLUREE_DATASET_NAME;
@@ -75,6 +77,8 @@ component {
             return flureeResponse.Statuscode == "200 OK";
         }
 
+        // function for sending a Fluree Query, to be used by the app user
+        // (the query is signed on behalf of the user)
         application.userQuery = function(query) {
             arguments.query["@context"] = application.FLUREE_DATASET_CONTEXT;
             arguments.query["from"] = application.FLUREE_DATASET_NAME;
@@ -90,6 +94,8 @@ component {
             return local.responseData;
         }
 
+        // function for sending a Fluree Transaction, to be used by the app user
+        // (the transaction is signed on behalf of the user)
         application.userTransaction = function(tx) {
             arguments.tx["@context"] = application.FLUREE_DATASET_CONTEXT;
             arguments.tx["ledger"] = application.FLUREE_DATASET_NAME;

@@ -1,8 +1,9 @@
+<!--- If not an Admin, redirect to site root --->
 <cfif (!structKeyExists(session, "isAdmin") or !session.isAdmin)>
-  <!--- If not an Admin, redirect to site root --->
   <cflocation  url="/" addtoken="false">
 </cfif>
 
+<!--- Delete User --->
 <cfif structKeyExists(url, "delete") and structKeyExists(url, "userid") and url.userid != "">
   <cfset success = application.userTransaction({
     "where": {
@@ -17,6 +18,7 @@
   <cflocation url="?success=#success#" addtoken="false" />
 </cfif>
 
+<!--- User Query --->
 <cfset local.users = application.userQuery({
     "where": {
         "@id": "?users",

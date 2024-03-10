@@ -1,4 +1,6 @@
 <cfset request.cancelLink = "/app/pages/admin/dashboard.cfm"/>
+
+<!--- Empty User record --->
 <cfset request.user = {
   "firstName": "",
   "lastName": "",
@@ -6,6 +8,7 @@
   "isAdmin": false
 } />
 
+<!--- If submitting Add User form, Transact User --->
 <cfif structKeyExists(form, "submit")>
   <cfset transaction = {
     "insert": {
@@ -25,23 +28,23 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>New User</title>
-    <link rel="stylesheet" href="/app/styles/main.css"/>
-    <link rel="stylesheet" href="/app/styles/dashboard.css"/>
-</head>
-<body>
-    <cfinclude template="/app/templates/navbar.cfm">
-    <div class="container">
-        <h2>Add User</h2>
-        <cfif structKeyExists(variables, "success") and !variables.success>
-          <p style="color: red;">Error adding new user.</p>
-        </cfif>
-        <cfinclude template="/app/templates/forms/user-form.cfm"/>
-    </div>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <title>New User</title>
+      <link rel="stylesheet" href="/app/styles/main.css"/>
+      <link rel="stylesheet" href="/app/styles/dashboard.css"/>
+  </head>
+  <body>
+      <cfinclude template="/app/templates/navbar.cfm">
+      <div class="container">
+          <h2>Add User</h2>
+          <cfif structKeyExists(variables, "success") and !variables.success>
+            <p style="color: red;">Error adding new user.</p>
+          </cfif>
+          <cfinclude template="/app/templates/forms/user-form.cfm"/>
+      </div>
 
-</body>
+  </body>
 </html>

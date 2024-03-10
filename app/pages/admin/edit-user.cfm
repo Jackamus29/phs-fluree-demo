@@ -1,5 +1,6 @@
 <cfset request.cancelLink = "/app/pages/admin/dashboard.cfm"/>
 
+<!--- Query User Details for Edit Form --->
 <cfif structKeyExists(url, "userid") and url.userid != "">
   <cfset userRecord = application.userQuery({
     "selectOne": { "#url.userid#": ["*"] }
@@ -10,6 +11,7 @@
 
 <cfset request.user = userRecord />
 
+<!--- If submitting Edit User form, Transact User --->
 <cfif structKeyExists(form, "submit")>
   <cfset transaction = {
     "where": {
@@ -27,7 +29,7 @@
       "isAdmin": "?isAdmin"
     },
     "insert": {
-      "@id": form["@id"],
+      "@id": userRecord["@id"],
       "firstName": form.firstName,
       "lastName": form.lastName,
       "email": form.email,
@@ -42,23 +44,23 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Edit User</title>
-    <link rel="stylesheet" href="/app/styles/main.css"/>
-    <link rel="stylesheet" href="/app/styles/dashboard.css"/>
-</head>
-<body>
-    <cfinclude template="/app/templates/navbar.cfm">
-    <div class="container">
-      <h2>Edit User</h2>
-      <cfif structKeyExists(variables, "success") and !variables.success>
-        <p style="color: red;">Error saving user details.</p>
-      </cfif>
-      <cfinclude template="/app/templates/forms/user-form.cfm"/>
-    </div>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <title>Edit User</title>
+      <link rel="stylesheet" href="/app/styles/main.css"/>
+      <link rel="stylesheet" href="/app/styles/dashboard.css"/>
+  </head>
+  <body>
+      <cfinclude template="/app/templates/navbar.cfm">
+      <div class="container">
+        <h2>Edit User</h2>
+        <cfif structKeyExists(variables, "success") and !variables.success>
+          <p style="color: red;">Error saving user details.</p>
+        </cfif>
+        <cfinclude template="/app/templates/forms/user-form.cfm"/>
+      </div>
 
-</body>
+  </body>
 </html>
