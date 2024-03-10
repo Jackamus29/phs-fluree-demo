@@ -61,6 +61,47 @@ component {
             cflog(text="#serializeJSON(local.responseData)#");
             return local.responseData;
         }
+
+        application.appTransaction = function(tx) {
+            arguments.tx["@context"] = application.FLUREE_DATASET_CONTEXT;
+            arguments.tx["ledger"] = application.FLUREE_DATASET_NAME;
+
+            local.serializedTx = serializeJSON(arguments.tx);
+            
+            cfhttp(url="http://#FLUREE_HOST#:#FLUREE_PORT#/fluree/transact", method="post", result="flureeResponse") {
+                cfhttpparam(type="header", name="Content-Type", value="application/json");
+                cfhttpparam(type="body", value=local.serializedTx);
+            }
+            return flureeResponse.Statuscode == "200 OK";
+        }
+
+        application.userQuery = function(query) {
+            arguments.query["@context"] = application.FLUREE_DATASET_CONTEXT;
+            arguments.query["from"] = application.FLUREE_DATASET_NAME;
+
+            local.serializedQuery = serializeJSON(arguments.query);
+            
+            cfhttp(url="http://#FLUREE_HOST#:#FLUREE_PORT#/fluree/query", method="post", result="flureeResponse") {
+                cfhttpparam(type="header", name="Content-Type", value="application/json");
+                cfhttpparam(type="body", value=local.serializedQuery);
+            }
+            local.responseData = deserializeJSON(flureeResponse.Filecontent);
+            cflog(text="#serializeJSON(local.responseData)#");
+            return local.responseData;
+        }
+
+        application.userTransaction = function(tx) {
+            arguments.tx["@context"] = application.FLUREE_DATASET_CONTEXT;
+            arguments.tx["ledger"] = application.FLUREE_DATASET_NAME;
+
+            local.serializedTx = serializeJSON(arguments.tx);
+            
+            cfhttp(url="http://#FLUREE_HOST#:#FLUREE_PORT#/fluree/transact", method="post", result="flureeResponse") {
+                cfhttpparam(type="header", name="Content-Type", value="application/json");
+                cfhttpparam(type="body", value=local.serializedTx);
+            }
+            return flureeResponse.Statuscode == "200 OK";
+        }
     }
 
     function onSessionStart() {
