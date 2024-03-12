@@ -19,21 +19,24 @@
       "firstName": "?firstName",
       "lastName": "?lastName",
       "email": "?email",
-      "isAdmin": "?isAdmin"
+      "isAdmin": "?isAdmin",
+      "clinic": "?clinic"
     },
     "delete": {
       "@id": userRecord["@id"],
       "firstName": "?firstName",
       "lastName": "?lastName",
       "email": "?email",
-      "isAdmin": "?isAdmin"
+      "isAdmin": "?isAdmin",
+      "clinic": "?clinic"
     },
     "insert": {
       "@id": userRecord["@id"],
       "firstName": form.firstName,
       "lastName": form.lastName,
       "email": form.email,
-      "isAdmin": form.isAdmin
+      "isAdmin": form.isAdmin,
+      "clinic": { "@id": form.clinic }
     }
   } />
   <cfset variables.success = application.userTransaction(transaction) />

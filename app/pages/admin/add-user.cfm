@@ -17,7 +17,8 @@
       "firstName": form.firstName,
       "lastName": form.lastName,
       "email": form.email,
-      "isAdmin": form.isAdmin
+      "isAdmin": form.isAdmin,
+      "clinic": { "@id": form.clinic }
     }
   } />
   <cfset variables.success = application.userTransaction(transaction) />

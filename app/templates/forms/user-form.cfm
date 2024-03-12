@@ -1,4 +1,15 @@
 <cfset local.isAdmin = (structKeyExists(request.user, "isAdmin") and request.user.isAdmin)/>
+
+<cfset variables.clinicOptions = application.userQuery({
+  "where": {
+    "@id": "?id",
+    "@type": "Clinic"
+  },
+  "select": {
+    "?id": ["@id", "name"]
+  }
+})/>
+
 <cfoutput>
 <link rel="stylesheet" href="/app/styles/form.css" />
   <form id="addUserForm" method="post">
@@ -20,6 +31,14 @@
       <select id="isAdmin" name="isAdmin">
           <option value="true" #local.isAdmin? "selected" : ""#>Yes</option>
           <option value="false" #!local.isAdmin ? "selected" : ""#>No</option>
+      </select>
+
+      <label for="clinic">Clinic:</label>
+      <select id="clinic" name="clinic">
+        <option value="none">-- Select a Clinic --</option>
+        <cfloop array="#clinicOptions#" item="clinicOption">
+          <option value="#clinicOption["@id"]#" #structKeyExists(request.user, "clinic") and request.user.clinic["@id"] == clinicOption["@id"] ? "selected" : ""#>#clinicOption.name#</option>
+        </cfloop>
       </select>
 
       <button class="form-button" name="submit" type="submit">#structKeyExists(request.user, "@id") ? "Edit" : "Add"# User</button>

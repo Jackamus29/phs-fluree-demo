@@ -24,7 +24,7 @@
         "@id": "?users",
         "@type": "User"
     },
-    "select": { "?users": ["*"] }
+    "select": { "?users": ["*", { "clinic": ["name"] }] }
 })>
 
 <cfoutput>
@@ -62,6 +62,7 @@
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Is Admin</th>
+                    <th>Clinic</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -74,6 +75,7 @@
                     <td>#user.lastName#</td>
                     <td>#user.email#</td>
                     <td>#(structKeyExists(user, "isAdmin") and user.isAdmin) ? "Yes" : "No" #</td>
+                    <td>#(structKeyExists(user, "clinic") and structKeyExists(user.clinic, "name")) ? "#user.clinic.name#" : "None" #</td>
                     <td>
                         <button class="action-btn">
                           <a href="edit-user.cfm?userid=#encodeForUrl(user["@id"])#">Edit</a>
