@@ -7,7 +7,7 @@ component {
 
     // Java Integration
     this.javaSettings = {
-        loadPaths: ["/lib"],
+        loadPaths: ["/app/lib/fluree-crypto.jar"],
         loadColdFusionClassPath: true,
         reloadOnChange: false
     };
@@ -45,6 +45,8 @@ component {
     function onApplicationStart() {
         // Application initialization logic
         cflog(text="Application Start");
+        local.flureeCrypto = createObject("java", "com.fluree");
+
         // initializeDataset();
 
         // function for sending a Fluree Query, to be used by app service, not a user
@@ -87,13 +89,15 @@ component {
             arguments.query["from"] = application.FLUREE_DATASET_NAME;
 
             local.serializedQuery = serializeJSON(arguments.query);
+            local.signedQuery = local.flureeCrypto.createJWS(local.serializedQuery, session.key);
+            cflog(text="signedQuery: #serializeJSON(local.signedQuery)#");
             
             cfhttp(url="http://#FLUREE_HOST#:#FLUREE_PORT#/fluree/query", method="post", result="flureeResponse") {
                 cfhttpparam(type="header", name="Content-Type", value="application/json");
-                cfhttpparam(type="body", value=local.serializedQuery);
+                cfhttpparam(type="body", value=local.signedQuery);
             }
             local.responseData = deserializeJSON(flureeResponse.Filecontent);
-            cflog(text="#serializeJSON(local.responseData)#");
+            cflog(text="responseData: #serializeJSON(local.responseData)#");
             return local.responseData;
         }
 
