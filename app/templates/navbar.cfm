@@ -8,7 +8,7 @@
         <cfif cgi.script_name != "/app/pages/admin/dashboard.cfm">
           <a href="/app/pages/admin/dashboard.cfm">Go To Admin Dashboard</a>
         <cfelse>
-          <a href="/app/pages/dataentry/demographics.cfm">Go To Data Entry</a>
+          <a href="/app/pages/dataentry/participants.cfm">Go To Data Entry</a>
         </cfif>
       </button>
     </cfif>

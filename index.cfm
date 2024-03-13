@@ -1,1 +1,1 @@
-<cflocation  url="/app/pages/dataentry/demographics.cfm" addtoken="false" />
+<cflocation  url="/app/pages/dataentry/participants.cfm" addtoken="false" />

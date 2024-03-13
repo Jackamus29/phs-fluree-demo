@@ -89,24 +89,6 @@
             </tbody>
         </table>
       </div>
-
-      <script>
-        // JavaScript functions for editing and adding users
-        function editUser(userId) {
-            // Implement logic to handle user editing
-            alert("Editing user with ID: " + userId);
-        }
-
-        function deleteUser(userId) {
-            // Implement logic to handle user editing
-            alert("Deleting user with ID: " + userId);
-        }
-
-        function addUser() {
-            // Implement logic to handle adding a new user
-            alert("Adding a new user");
-        }
-      </script>
     </body>
   </html>
 </cfoutput>

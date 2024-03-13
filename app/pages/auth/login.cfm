@@ -9,7 +9,7 @@
         "select": { "?users": ["*"] }
     }
     local.userResponse = application.appQuery(userQuery);
-    if (arrayLen(userResponse) > 0) {
+    if (isArray(userResponse) and arrayLen(userResponse) > 0) {
         return userResponse[1];
     } 
     return;
@@ -24,9 +24,10 @@
   <cfset local.userRecord = fetchUserByEmail(email) />
   <cfif structKeyExists(local, "userRecord") and structKeyExists(local.userRecord, "email") >
       <cfset session.authenticated = true>
-      <cfset session.email = local.userRecord["email"]>
-      <cfset session.isAdmin = structKeyExists(local.userRecord, "isAdmin") ? local.userRecord["isAdmin"] : false>
-      <cflocation url="../dataentry/demographics.cfm" addtoken="false">
+      <cfset session.userId = local.userRecord["@id"]>
+      <cfset session.email = local.userRecord.email />
+      <cfset session.isAdmin = structKeyExists(local.userRecord, "isAdmin") ? local.userRecord.isAdmin : false>
+      <cflocation url="../dataentry/participants.cfm" addtoken="false">
   <cfelse>
       <cfset session.authenticated = false>
       <cfset session.email = "">

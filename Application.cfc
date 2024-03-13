@@ -45,11 +45,12 @@ component {
     function onApplicationStart() {
         // Application initialization logic
         cflog(text="Application Start");
-        initializeDataset();
+        // initializeDataset();
 
         // function for sending a Fluree Query, to be used by app service, not a user
         application.appQuery = function(query) {
-            arguments.query["@context"] = application.FLUREE_DATASET_CONTEXT;
+            // combine any provided @context with the application-level context (don't overwrite provided values)
+            structAppend((structKeyExists(arguments.query, "@context") ? arguments.query["@context"] : {}), application.FLUREE_DATASET_CONTEXT, false);
             arguments.query["from"] = application.FLUREE_DATASET_NAME;
 
             local.serializedQuery = serializeJSON(arguments.query);
@@ -65,7 +66,8 @@ component {
 
         // function for sending a Fluree Transaction, to be used by app service, not a user
         application.appTransaction = function(tx) {
-            arguments.tx["@context"] = application.FLUREE_DATASET_CONTEXT;
+            // combine any provided @context with the application-level context (don't overwrite provided values)
+            structAppend((structKeyExists(arguments.tx, "@context") ? arguments.tx["@context"] : {}), application.FLUREE_DATASET_CONTEXT, false);
             arguments.tx["ledger"] = application.FLUREE_DATASET_NAME;
 
             local.serializedTx = serializeJSON(arguments.tx);
@@ -80,7 +82,8 @@ component {
         // function for sending a Fluree Query, to be used by the app user
         // (the query is signed on behalf of the user)
         application.userQuery = function(query) {
-            arguments.query["@context"] = application.FLUREE_DATASET_CONTEXT;
+            // combine any provided @context with the application-level context (don't overwrite provided values)
+            structAppend((structKeyExists(arguments.query, "@context") ? arguments.query["@context"] : {}), application.FLUREE_DATASET_CONTEXT, false);
             arguments.query["from"] = application.FLUREE_DATASET_NAME;
 
             local.serializedQuery = serializeJSON(arguments.query);
@@ -97,7 +100,8 @@ component {
         // function for sending a Fluree Transaction, to be used by the app user
         // (the transaction is signed on behalf of the user)
         application.userTransaction = function(tx) {
-            arguments.tx["@context"] = application.FLUREE_DATASET_CONTEXT;
+            // combine any provided @context with the application-level context (don't overwrite provided values)
+            structAppend((structKeyExists(arguments.tx, "@context") ? arguments.tx["@context"] : {}), application.FLUREE_DATASET_CONTEXT, false);
             arguments.tx["ledger"] = application.FLUREE_DATASET_NAME;
 
             local.serializedTx = serializeJSON(arguments.tx);
