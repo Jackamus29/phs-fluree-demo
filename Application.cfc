@@ -5,42 +5,12 @@ component {
     this.sessionManagement = true;
     this.sessionTimeout = createTimeSpan(0, 1, 0, 0);
 
-    // Java Integration
-    this.javaSettings = {
-        loadPaths: ["/lib"],
-        loadColdFusionClassPath: true,
-        reloadOnChange: false
-    };
-
     FLUREE_HOST = "fluree";
     FLUREE_PORT = 8090;
     application.FLUREE_DATASET_NAME = "phs/cf-demo";
     application.FLUREE_DATASET_CONTEXT = {};
 
-    initialData = [
-        {
-            "@id": "users/bsmith2",
-            "@type": "User",
-            "firstName": "Robert",
-            "lastName": "Smith",
-            "preferredName": "Buddy",
-            "email": "bsmith@asu.edu"
-        },
-        {
-            "@id": "users/agraves",
-            "@type": "User",
-            "firstName": "Alice",
-            "lastName": "Graves",
-            "email": "alice@wfu.edu",
-            "isAdmin": true
-        },
-        {
-            "@id": "clinics/asu",
-            "@type": "Clinic",
-            "name": "Arizona State University",
-            "url": "https://asu.edu"
-        }
-    ];
+    // initialData = [];
 
     function onApplicationStart() {
         // Application initialization logic
