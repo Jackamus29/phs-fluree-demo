@@ -1,54 +1,40 @@
-<!--- If user is an Admin, allow them to select any clinic --->
-<cfif session.isAdmin>
-  <cfset variables.clinicOptions = application.userQuery({
-    "where": {
-      "@id": "?id",
-      "@type": "Clinic"
-    },
-    "select": {
-      "?id": ["@id", "name"]
-    }
-  })/>
-<cfelse>
- <!--- If the user is not an Admin, use their clinic as the only option --->
-  <cfset variables.clinicQueryResults = application.userQuery({
-    "select": {
-      "#session.userId#": [{"clinic": ["@id", "name"]}]
-    }
-  })/>
-  <cfset variables.clinicOptions = [clinicQueryResults[1].clinic] />
-</cfif>
-
-<cflog text="clinicOptions: #serializeJSON(variables.clinicOptions)#" />
-
 <cfoutput>
 <link rel="stylesheet" href="/app/styles/form.css" />
-  <form id="addPptForm" method="post">
-      <cfif structKeyExists(request.ppt, "pid")>
-        <label for="id">PID:</label>
-        <input type="text" id="pid" name="pid" value="#request.ppt.pid#" readonly="readonly">
-      </cfif>
+  <form id="visitForm" method="post">
+    <fieldset>
+      <legend>Participant Information</legend>
+
+      <label for="id">PID:</label>
+      <input type="text" id="pid" name="pid" value="#request.ppt.pid#" disabled>
 
       <label for="firstName">First Name:</label>
-      <input type="text" id="firstName" name="firstName" value="#request.ppt.firstName#" required>
+      <input type="text" id="firstName" name="firstName" value="#request.ppt.firstName#" disabled>
 
       <label for="lastName">Last Name:</label>
-      <input type="text" id="lastName" name="lastName" value="#request.ppt.lastName#" required>
+      <input type="text" id="lastName" name="lastName" value="#request.ppt.lastName#" disabled>
 
       <label for="dob">DOB (YYYY-MM-DD):</label>
-      <input type="dob" id="dob" name="dob" value="#request.ppt.dob#" required>
+      <input type="dob" id="dob" name="dob" value="#request.ppt.dob#" disabled>
+    </fieldset>
+      
+    <cfif structKeyExists(request.visit, "pid")>
+      <input id="@id" name="@id" value="#request.visit["@id"]#" hidden>
+    </cfif>
+    <label for="contact">Visit ##:</label>
+    <input type="number" id="contact" name="contact" value="#request.visit.contact#">
 
-      <label for="clinic">Clinic:</label>
-      <select id="clinic" name="clinic">
-        <option value="none">-- Select a Clinic --</option>
-        <cfloop array="#clinicOptions#" item="clinicOption">
-          <option value="#clinicOption["@id"]#" #structKeyExists(request.ppt, "clinic") and request.ppt.clinic["@id"] == clinicOption["@id"] ? "selected" : ""#>#clinicOption.name#</option>
-        </cfloop>
-      </select>
+    <label for="visitDate">Visit Date:</label>
+    <input type="date" id="visitDate" name="visitDate" value="#request.visit.visitDate#">
 
-      <button class="form-button" name="submit" type="submit">#structKeyExists(request.ppt, "@id") ? "Edit" : "Add"# Participant</button>
-      <button class="form-button no-padding" type="button">
-        <a href="#request.cancelLink#">Cancel</a>
-      </button>
+    <label for="height">Height:</label>
+    <input type="number" id="height" name="height" value="#request.visit.height#">
+
+    <label for="pulse">Pulse:</label>
+    <input type="number" id="pulse" name="pulse" value="#request.visit.pulse#">
+
+    <button class="form-button" name="submit" type="submit">#structKeyExists(request.visit, "@id") ? "Edit" : "Add"# Clinic Visit</button>
+    <button class="form-button no-padding" type="button">
+      <a href="#request.cancelLink#">Cancel</a>
+    </button>
   </form>
 </cfoutput>

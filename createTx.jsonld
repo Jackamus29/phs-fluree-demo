@@ -1,0 +1,209 @@
+{
+  "ledger": "phs/cf-demo",
+  "insert": [
+    {
+      "@id": "users/bsmith2",
+      "@type": "User",
+      "firstName": "Robert",
+      "lastName": "Smith",
+      "preferredName": "Buddy",
+      "email": "bsmith@wfu.edu",
+      "clinic": { "@id": "clinics/wfu" }
+    },
+    {
+      "@id": "users/agraves",
+      "@type": "User",
+      "firstName": "Alice",
+      "lastName": "Graves",
+      "email": "alice@wfu.edu",
+      "isAdmin": true,
+      "clinic": { "@id": "clinics/wfu" }
+    },
+    {
+      "@id": "users/jdoe",
+      "@type": "User",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "jdoe@example.com",
+      "clinic": { "@id": "clinics/ucla" }
+    },
+    {
+      "@id": "users/mmiller",
+      "@type": "User",
+      "firstName": "Mary",
+      "lastName": "Miller",
+      "email": "mmiller@example.com",
+      "clinic": { "@id": "clinics/harvard" }
+    },
+    {
+      "@id": "users/kjones",
+      "@type": "User",
+      "firstName": "Kevin",
+      "lastName": "Jones",
+      "email": "kjones@example.com",
+      "clinic": { "@id": "clinics/wfu" }
+    },
+    {
+      "@id": "clinics/wfu",
+      "@type": "Clinic",
+      "name": "Wake Forest University",
+      "url": "https://wfu.edu"
+    },
+    {
+      "@id": "clinics/ucla",
+      "@type": "Clinic",
+      "name": "University of California, Los Angeles",
+      "url": "https://ucla.edu"
+    },
+    {
+      "@id": "clinics/harvard",
+      "@type": "Clinic",
+      "name": "Harvard Medical School",
+      "url": "https://hms.harvard.edu"
+    },
+    {
+      "@id": "ppts/10001",
+      "@type": "Participant",
+      "pid": 10001,
+      "firstName": "John",
+      "lastName": "Doe",
+      "dob": "1972-01-01",
+      "clinic": { "@id": "clinics/wfu" }
+    },
+    {
+      "@id": "ppts/10002",
+      "@type": "Participant",
+      "pid": 10002,
+      "firstName": "Alice",
+      "lastName": "Smith",
+      "dob": "1970-03-15",
+      "clinic": { "@id": "clinics/wfu" }
+    },
+    {
+      "@id": "ppts/10003",
+      "@type": "Participant",
+      "pid": 10003,
+      "firstName": "Michael",
+      "lastName": "Johnson",
+      "dob": "1968-07-20",
+      "clinic": { "@id": "clinics/ucla" }
+    },
+    {
+      "@id": "ppts/10004",
+      "@type": "Participant",
+      "pid": 10004,
+      "firstName": "Emily",
+      "lastName": "Brown",
+      "dob": "1966-11-30",
+      "clinic": { "@id": "clinics/wfu" }
+    },
+    {
+      "@id": "ppts/10005",
+      "@type": "Participant",
+      "pid": 10005,
+      "firstName": "Robert",
+      "lastName": "Taylor",
+      "dob": "1965-09-05",
+      "clinic": { "@id": "clinics/ucla" }
+    },
+    {
+      "@id": "ppts/10006",
+      "@type": "Participant",
+      "pid": 10006,
+      "firstName": "Sarah",
+      "lastName": "Davis",
+      "dob": "1964-04-12",
+      "clinic": { "@id": "clinics/wfu" }
+    },
+    {
+      "@id": "ppts/10007",
+      "@type": "Participant",
+      "pid": 10007,
+      "firstName": "Daniel",
+      "lastName": "Martinez",
+      "dob": "1963-08-25",
+      "clinic": { "@id": "clinics/ucla" }
+    },
+    {
+      "@id": "forms/clinic-visit/10001/1",
+      "@type": ["FormResponse", "ClinicVisit"],
+      "contact": 1,
+      "participant": { "@id": "ppts/10001" },
+      "visitDate": "2024-01-10",
+      "height": 68,
+      "pulse": 72
+    },
+    {
+      "@id": "forms/clinic-visit/10001/2",
+      "@type": ["FormResponse", "ClinicVisit"],
+      "contact": 2,
+      "participant": { "@id": "ppts/10001" },
+      "visitDate": "2024-03-05",
+      "height": 68,
+      "pulse": 75
+    },
+    {
+      "@id": "forms/clinic-visit/10002/1",
+      "@type": ["FormResponse", "ClinicVisit"],
+      "contact": 1,
+      "participant": { "@id": "ppts/10002" },
+      "visitDate": "2024-02-15",
+      "height": 70,
+      "pulse": 78
+    },
+    {
+      "@id": "forms/clinic-visit/10003/1",
+      "@type": ["FormResponse", "ClinicVisit"],
+      "contact": 1,
+      "participant": { "@id": "ppts/10003" },
+      "visitDate": "2024-03-10",
+      "height": 72,
+      "pulse": 80
+    },
+    {
+      "@id": "forms/clinic-visit/10004/1",
+      "@type": ["FormResponse", "ClinicVisit"],
+      "contact": 1,
+      "participant": { "@id": "ppts/10004" },
+      "visitDate": "2024-03-10",
+      "height": 66,
+      "pulse": 76
+    },
+    {
+      "@id": "forms/clinic-visit/10005/1",
+      "@type": ["FormResponse", "ClinicVisit"],
+      "contact": 1,
+      "participant": { "@id": "ppts/10005" },
+      "visitDate": "2024-01-25",
+      "height": 69,
+      "pulse": 70
+    },
+    {
+      "@id": "forms/clinic-visit/10006/1",
+      "@type": ["FormResponse", "ClinicVisit"],
+      "contact": 1,
+      "participant": { "@id": "ppts/10006" },
+      "visitDate": "2024-02-28",
+      "height": 67,
+      "pulse": 73
+    },
+    {
+      "@id": "forms/clinic-visit/10002/2",
+      "@type": ["FormResponse", "ClinicVisit"],
+      "contact": 2,
+      "participant": { "@id": "ppts/10002" },
+      "visitDate": "2024-03-13",
+      "height": 71,
+      "pulse": 75
+    },
+    {
+      "@id": "forms/clinic-visit/10003/2",
+      "@type": ["FormResponse", "ClinicVisit"],
+      "contact": 2,
+      "participant": { "@id": "ppts/10003" },
+      "visitDate": "2024-03-14",
+      "height": 73,
+      "pulse": 78
+    }
+  ]
+}

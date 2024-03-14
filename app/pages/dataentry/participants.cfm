@@ -19,18 +19,39 @@
 </cfif>
 
 <!--- Participant Query --->
-<cfset local.participants = application.userQuery({
-    "@context": {
-      "visits": { "@reverse": "participant"}
-    },
-    "where": {
-        "@id": "?ppts",
-        "@type": "Participant",
-        "pid": "?pid"
-    },
-    "select": { "?ppts": ["*", {"clinic": ["@id", "name"]}, { "visits": ["*"]}] },
-    "orderBy": "?pid"
-})>
+<cfif session.isAdmin >
+  <cfset local.participants = application.userQuery({
+      "@context": {
+        "visits": { "@reverse": "participant"}
+      },
+      "where": {
+          "@id": "?ppts",
+          "@type": "Participant",
+          "pid": "?pid"
+      },
+      "select": { "?ppts": ["*", {"clinic": ["@id", "name"]}, { "visits": ["*"]}] },
+      "orderBy": "?pid"
+  })>
+<cfelse>
+  <cfset local.participants = application.userQuery({
+      "@context": {
+          "visits": { "@reverse": "participant"},
+          "participants": { "@reverse": "clinic" }
+      },
+      "where": {
+          "@id": session.userId,
+          "clinic": {
+              "participants": {
+                  "@id": "?ppts",
+                  "@type": "Participant",
+                  "pid": "?pid"
+              }
+          }
+      },
+      "select": { "?ppts": ["*", {"clinic": ["@id", "name"]}, { "visits": ["*"]}] },
+      "orderBy": "?pid"
+  })>
+</cfif>
 
 <cfoutput>
   <!DOCTYPE html>
@@ -57,7 +78,7 @@
         </cfif>
       
         <div class="add-user-btn-container">
-          <a href="participant/add.cfm" class="add-user-btn">Add New Participant</a>
+          <a href="participant/add.cfm" class="add-user-btn" disabled>Add New Participant</a>
         </div>
         <table>
             <thead>

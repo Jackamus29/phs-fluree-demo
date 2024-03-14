@@ -9,7 +9,7 @@
       "@id": "?ppt",
       "pid": local.pidFromUrl
     },
-    "select": { "?ppt": ["@id", "name", "pid", "dob"] }
+    "select": { "?ppt": ["@id", "pid", "firstName", "lastName", "dob"] }
   })>
 <cfelse>
   <cflocation url="#request.cancelLink#" addtoken="false"/>
@@ -22,7 +22,7 @@
 <cfif structKeyExists(form, "submit")>
   <cfset transaction = {
     "insert": {
-      "@id": "forms/clinic-visit/#request.ppt.pid#/#local.nextContact#",
+      "@id": "forms/clinic-visit/#request.ppt.pid#/#form.contact#",
       "@type": ["FormResponse", "ClinicVisit"],
       "contact": form.contact,
       "participant": { "@id": request.ppt["@id"] },
@@ -32,23 +32,23 @@
     }
   } />
   <cfset variables.success = application.userTransaction(transaction) />
-  <cflog text="add participant tx: #serializeJSON(transaction)#" />
+  <cflog text="add visit tx: #serializeJSON(transaction)#" />
   <cfif variables.success>
     <cflocation url="#request.cancelLink#" addtoken="false"/>
   </cfif>
-</cfelse>
+<cfelse>
   <!---  Prepare the New Clinic Visit Form  --->
   <!---  Get the next Contact number for this participant  --->
   <cfset local.maxContactResult = application.appQuery({
     "where": {
       "@type": "ClinicVisit",
-      "participant": request.ppt["@id"],
+      "participant": {"@id": request.ppt["@id"] },
       "contact": "?contacts"
     },
     "select": [ "(max ?contacts)"]
   }) />
   <!--- The javaCast is needed because otherwise CF will add ".0" to the end of the integer when using serializeJSON --->
-  <cfset local.nextContact = javaCast("int", local.maxContactResult[1][1] + 1) />
+  <cfset local.nextContact = arrayLen(local.maxContactResult) eq 0 ? 1 : javaCast("int", local.maxContactResult[1][1] + 1) />
 
   <!--- New Visit record --->
   <cfset request.visit = {
@@ -66,7 +66,7 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <title>New User</title>
+      <title>Clinic Visit</title>
       <link rel="stylesheet" href="/app/styles/main.css"/>
       <link rel="stylesheet" href="/app/styles/dashboard.css"/>
   </head>
@@ -75,7 +75,7 @@
       <div class="container">
           <h2>New Clinic Visit</h2>
           <cfif structKeyExists(variables, "success") and !variables.success>
-            <p style="color: red;">Error adding new user.</p>
+            <p style="color: red;">Error adding new clinic visit.</p>
           </cfif>
           <cfinclude template="/app/templates/forms/clinic-visit-form.cfm"/>
       </div>
