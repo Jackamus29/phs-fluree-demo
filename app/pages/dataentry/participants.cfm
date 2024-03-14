@@ -83,7 +83,11 @@
                     <td>#ppt.firstName#</td>
                     <td>#ppt.lastName#</td>
                     <td>#ppt.dob#</td>
-                    <td>#ArrayLen(ppt.visits)#</td>
+                    <td>
+                      <cfloop array="#ppt.visits#" item="visit">
+                        <a href="visit/edit.cfm?visitId=#encodeForUrl(visit["@id"])#">#visit["visitDate"]#</a>
+                      </cfloop>
+                    </td>
                     <td>#(structKeyExists(ppt, "clinic") and structKeyExists(ppt.clinic, "name")) ? "#ppt.clinic.name#" : "None" #</td>
                     <td>
                         <button class="action-btn">
@@ -91,6 +95,9 @@
                         </button>
                         <button class="action-btn">
                           <a href="?delete&pid=#ppt.pid#">Delete</a>
+                        </button>
+                        <button class="action-btn">
+                          <a href="visit/add.cfm?pid=#ppt.pid#">Add Visit</a>
                         </button>
                     </td>
                 </tr>
