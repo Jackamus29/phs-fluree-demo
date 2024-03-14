@@ -17,13 +17,15 @@
   <cfset local.nextPid = javaCast("int", local.maxPidResult[1][1] + 1) />
   <cfset transaction = {
     "insert": {
-      "@id": "ppts/#local.nextPid#",
-      "@type": "Participant",
-      "pid": local.nextPid,
-      "firstName": form.firstName,
-      "lastName": form.lastName,
-      "dob": form.dob,
-      "clinic": { "@id": form.clinic }
+      "@id": form.clinic,
+      "participants": {
+        "@id": "ppts/#local.nextPid#",
+        "@type": "Participant",
+        "pid": local.nextPid,
+        "firstName": form.firstName,
+        "lastName": form.lastName,
+        "dob": form.dob
+      }
     }
   } />
   <cfset variables.success = application.userTransaction(transaction) />

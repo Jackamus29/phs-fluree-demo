@@ -1,12 +1,15 @@
 <cfscript>
   function fetchUserByEmail(email) {
     local.userQuery = {
+        "@context": {
+            "identity": { "@reverse": "user" }
+        },
         "where": {
             "@id": "?users",
             "@type": "User",
             "email": email
         },
-        "select": { "?users": ["*"] }
+        "select": { "?users": ["*", "identity"] }
     }
     local.userResponse = application.appQuery(userQuery);
     if (isArray(userResponse) and arrayLen(userResponse) > 0) {
@@ -25,6 +28,7 @@
   <cfif structKeyExists(local, "userRecord") and structKeyExists(local.userRecord, "email") >
       <cfset session.authenticated = true>
       <cfset session.userId = local.userRecord["@id"]>
+      <cfset session.userDid = local.userRecord.identity>
       <cfset session.email = local.userRecord.email />
       <cfset session.isAdmin = structKeyExists(local.userRecord, "isAdmin") ? local.userRecord.isAdmin : false>
       <cflocation url="../dataentry/participants.cfm" addtoken="false">

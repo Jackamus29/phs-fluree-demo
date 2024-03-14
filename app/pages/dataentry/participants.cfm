@@ -21,7 +21,8 @@
 <!--- Participant Query --->
 <cfset local.participants = application.userQuery({
     "@context": {
-      "visits": { "@reverse": "participant"}
+      "clinic": { "@reverse": "participants" },
+      "visits": { "@reverse": "participant" }
     },
     "where": {
         "@id": "?ppts",
